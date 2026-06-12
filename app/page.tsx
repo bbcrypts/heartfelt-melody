@@ -142,6 +142,13 @@ export default function HomePage() {
             turn those details into a custom recorded song and deiliver to the email address you provide.
           </p>
         </details>
+         <details>
+          <summary>Who owns the rights to a song once it's created?</summary>
+          <p>
+            You retain 100% of the rights of any song you create with us. This is included in our fee. If you 
+            want to use the song commercially, please be sure to purchase the "Commercial License" add-on. 
+          </p>
+        </details>
 
         <details>
           <summary>Do I need to know anything about music?</summary>
