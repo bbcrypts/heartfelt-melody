@@ -8,13 +8,14 @@ const steps = ["Recipient", "Occasion", "Music", "Story", "Review", "Checkout"];
 const BASE_PRICE = 79;
 const SPECIFIC_LYRICS_PRICE = 15;
 const PDF_LYRICS_PRICE = 8;
-const COMMERCIAL_LICENSE_PRICE = 99;
-const ANNUAL_PRICE = 999;
+const COMMERCIAL_LICENSE_PRICE = 60;
+const ANNUAL_PRICE = 300;
 
 export default function WritePage() {
   const [step, setStep] = useState(0);
 
   const [form, setForm] = useState({
+    customerEmail: "",
     recipientName: "",
     relationship: "",
     occasion: "",
@@ -28,7 +29,6 @@ export default function WritePage() {
     pdfLyrics: false,
     commercialLicense: false,
     annualSubscription: false,
-    tipEnabled: false,
     tipAmount: "",
   });
 
@@ -38,7 +38,7 @@ export default function WritePage() {
     if (form.specificLyrics) price += SPECIFIC_LYRICS_PRICE;
     if (form.pdfLyrics) price += PDF_LYRICS_PRICE;
     if (form.commercialLicense) price += COMMERCIAL_LICENSE_PRICE;
-    if (form.tipEnabled) price += Number(form.tipAmount || 0);
+    price += Number(form.tipAmount || 0);
 
     return price;
   }, [form]);
@@ -232,7 +232,15 @@ export default function WritePage() {
               <p><strong>Genre:</strong> {form.genre || "—"}</p>
               <p><strong>Mood:</strong> {form.mood || "—"}</p>
               <p><strong>Voice:</strong> {form.voice || "—"}</p>
+              <p><strong>PDF Lyric Sheet:</strong> {form.pdfLyrics ? "Yes" : "No"}</p>
+              <p><strong>Specific Lyrics:</strong> {form.specificLyrics ? "Yes" : "No"}</p>
             </div>
+            {form.specificLyrics && (
+  <p>
+    <strong>Requested Lyrics:</strong>{" "}
+    {form.specificLyricsText || "—"}
+  </p>
+)}
 
             <label className="checkboxRow">
               <input
@@ -246,24 +254,63 @@ export default function WritePage() {
             </label>
 
             <small>
-              Required for business, advertising, promotional, podcast,
-              YouTube, or other commercial use.
+              Required for business, advertising, promotional, podcast, YouTube,
+              or other commercial use.
             </small>
           </StepCard>
         )}
 
         {step === 5 && (
           <StepCard title="Checkout">
-            <div className="membershipBox">
-              <h3>Save with an annual membership</h3>
-              <p>Get 30 custom songs per year at a reduced yearly rate.</p>
+            <label>
+              Your Email Address
+              <input
+                type="email"
+                value={form.customerEmail}
+                onChange={(e) => update("customerEmail", e.target.value)}
+                placeholder="you@example.com"
+              />
+            </label>
+
+            <p className="helperText">
+              We’ll send order updates and your completed song to this email.
+            </p>
+
+            <div className="trustBox">
+              <p>✓ Secure checkout powered by Stripe</p>
+              <p>✓ Delivered by email</p>
+              <p>
+                ✓ Questions?{" "}
+                <a href="mailto:hello@heartfeltmelody.com">
+                  hello@heartfeltmelody.com
+                </a>
+              </p>
+            </div>
+
+            <div className="subscriptionBox">
+              <p className="saleBadge">BEST VALUE</p>
+              <p className="seasonalLine">See you at Thanksgiving?</p>
+
+              <h3>Upgrade to Annual Subscription</h3>
+
+              <p className="subscriptionLead">
+                Get up to 25 custom songs throughout the year with our Annual
+                Subscription for just ${ANNUAL_PRICE}/year.
+              </p>
+
+              <div className="savingsCallout">
+                As low as $12 per song when fully utilized. Perfect for
+                birthdays, anniversaries, holidays, graduations, retirements,
+                and every meaningful moment in between.
+              </div>
 
               <div className="songCards">
-                <span>Birthday</span>
+                <span>Birthdays</span>
                 <span>Anniversary</span>
                 <span>Wedding</span>
                 <span>Retirement</span>
                 <span>Mother’s Day</span>
+                <span>Father’s Day</span>
               </div>
 
               <label className="checkboxRow">
@@ -274,42 +321,56 @@ export default function WritePage() {
                     update("annualSubscription", e.target.checked)
                   }
                 />
-                Upgrade to annual subscription (${ANNUAL_PRICE}/year)
+                Add Annual Subscription (${ANNUAL_PRICE}/year)
               </label>
+
+              {form.annualSubscription && (
+                <p className="subscriptionDisclosure">
+                  By subscribing, you agree to annual billing of ${ANNUAL_PRICE}
+                  /year until cancelled. Your subscription includes up to 25
+                  custom songs per year for the subscribing email address.
+                </p>
+              )}
             </div>
 
             <div className="priceBox">
               <h3>Price Breakdown</h3>
-              <p>Base song: ${form.annualSubscription ? ANNUAL_PRICE : BASE_PRICE}</p>
-              {form.specificLyrics && <p>Specific lyrics: +${SPECIFIC_LYRICS_PRICE}</p>}
+              <p>
+                {form.annualSubscription ? "Annual subscription" : "Base song"}: $
+                {form.annualSubscription ? ANNUAL_PRICE : BASE_PRICE}
+              </p>
+              {form.specificLyrics && (
+                <p>Specific lyrics: +${SPECIFIC_LYRICS_PRICE}</p>
+              )}
               {form.pdfLyrics && <p>PDF lyric sheet: +${PDF_LYRICS_PRICE}</p>}
-              {form.commercialLicense && <p>Commercial license: +${COMMERCIAL_LICENSE_PRICE}</p>}
-              {form.tipEnabled && <p>Musician tip: +${form.tipAmount || 0}</p>}
+              {form.commercialLicense && (
+                <p>Commercial license: +${COMMERCIAL_LICENSE_PRICE}</p>
+              )}
+              {Number(form.tipAmount) > 0 && (
+                <p>Musician tip: +${form.tipAmount}</p>
+              )}
               <h2>Total: ${total}</h2>
             </div>
 
             <div className="tipBox">
-              <label className="checkboxRow">
-                <input
-                  type="checkbox"
-                  checked={form.tipEnabled}
-                  onChange={(e) => update("tipEnabled", e.target.checked)}
-                />
-                Include a tip for our musicians
+              <label>
+                Include a tip to our musicians?
+                <div className="tipInputWrap">
+                  <span>$</span>
+                  <input
+                    className="tipInput"
+                    inputMode="numeric"
+                    value={form.tipAmount}
+                    onChange={(e) =>
+                      update("tipAmount", e.target.value.replace(/\D/g, ""))
+                    }
+                    placeholder="0"
+                  />
+                </div>
               </label>
-
-              {form.tipEnabled && (
-                <input
-                  type="number"
-                  min="0"
-                  value={form.tipAmount}
-                  onChange={(e) => update("tipAmount", e.target.value)}
-                  placeholder="Custom tip amount"
-                />
-              )}
             </div>
 
-            <button className="payButton">Pay Now</button>
+            <button className="payButton">Complete Secure Checkout</button>
           </StepCard>
         )}
 
