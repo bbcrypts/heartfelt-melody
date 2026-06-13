@@ -356,11 +356,11 @@ export default function WritePage() {
               <p className="saleBadge">BEST VALUE</p>
               <p className="seasonalLine">See you at Thanksgiving?</p>
 
-              <h3>Upgrade to Annual Subscription</h3>
+              <h3>Upgrade to Annual Song Package</h3>
 
               <p className="subscriptionLead">
-                Get up to 25 custom songs throughout the year with our Annual
-                Subscription for just ${ANNUAL_PRICE}/year.
+                Get up to 25 custom songs over the next 12 months for a
+                one-time payment of just ${ANNUAL_PRICE}.
               </p>
 
               <div className="savingsCallout">
@@ -371,9 +371,9 @@ export default function WritePage() {
 
               <div className="songCards">
                 <span>Birthdays</span>
-                <span>Anniversary</span>
-                <span>Wedding</span>
-                <span>Retirement</span>
+                <span>Anniversaries</span>
+                <span>Weddings</span>
+                <span>Retirements</span>
                 <span>Mother’s Day</span>
                 <span>Father’s Day</span>
               </div>
@@ -386,14 +386,19 @@ export default function WritePage() {
                     update("annualSubscription", e.target.checked)
                   }
                 />
-                Add Annual Subscription (${ANNUAL_PRICE}/year)
+                Add Annual Song Package (${ANNUAL_PRICE})
               </label>
 
               {form.annualSubscription && (
                 <p className="subscriptionDisclosure">
-                  By subscribing, you agree to annual billing of ${ANNUAL_PRICE}
-                  /year until cancelled. Your subscription includes up to 25
-                  custom songs per year for the subscribing email address.
+                  This is a one-time purchase, not a recurring subscription.
+                  Your package includes up to 25 custom songs submitted from the
+                  purchasing email address within 12 months of purchase. To
+                  redeem included songs, email{" "}
+                  <a href="mailto:hello@heartfeltmelody.com">
+                    hello@heartfeltmelody.com
+                  </a>{" "}
+                  from the same email address used at checkout.
                 </p>
               )}
             </div>
@@ -401,7 +406,7 @@ export default function WritePage() {
             <div className="priceBox">
               <h3>Price Breakdown</h3>
               <p>
-                {form.annualSubscription ? "Annual subscription" : "Base song"}: $
+                {form.annualSubscription ? "Annual song package" : "Base song"}: $
                 {form.annualSubscription ? ANNUAL_PRICE : BASE_PRICE}
               </p>
               {form.specificLyrics && (

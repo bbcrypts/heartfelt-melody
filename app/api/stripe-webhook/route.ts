@@ -134,6 +134,21 @@ ${m.specificLyrics === "true" ? "- Specific lyrics\n" : ""}${
 
 We’ll send updates to this email address.
 
+${
+  m.annualSubscription === "true"
+    ? `
+ANNUAL SONG PACKAGE
+
+Thank you for purchasing the Annual Song Package.
+
+You may redeem up to 25 included custom songs during the next 12 months.
+
+To redeem a song, email hello@heartfeltmelody.com from this same email address and we'll provide your redemption link.
+
+`
+    : ""
+}
+
 Questions? Email hello@heartfeltmelody.com.
 
 With care,

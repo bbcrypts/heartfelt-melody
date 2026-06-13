@@ -18,6 +18,9 @@ export const metadata = {
   description:
     "Custom songs written and recorded from your memories, stories, and special moments. Perfect for birthdays, anniversaries, and other special occasions.",
 
+  icons: {
+    icon: "/favicon.jpg",
+  },
 };
 
 export default function RootLayout({
