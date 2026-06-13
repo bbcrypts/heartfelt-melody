@@ -18,6 +18,10 @@ export default function HomePage() {
           </Link>
         </div>
       </nav>
+      <section className="promoBanner">
+  🎵 Father's Day Special — Save $25 on any custom song with code{" "}
+  <strong>DAD2026</strong> at checkout 🎵
+</section>
 
       <section className="hero">
         <p className="scriptLine">A song made from their story</p>

@@ -481,3 +481,30 @@
     padding-top: 60px;
   }
 }
+
+.promoBanner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  text-align: center;
+
+  background: linear-gradient(
+    90deg,
+    #9b5f30 0%,
+    #b97742 50%,
+    #9b5f30 100%
+  );
+
+  color: white;
+  border-radius: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+
+  box-shadow: 0 10px 24px rgba(155, 95, 48, 0.18);
+}
+
+.promoBanner strong {
+  color: #fff6d5;
+  font-size: 1.05em;
+}
