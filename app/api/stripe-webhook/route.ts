@@ -37,7 +37,11 @@ export async function POST(req: Request) {
   const session = event.data.object as Stripe.Checkout.Session;
   const m = session.metadata || {};
 
-  const orderNumber = session.id;
+  const orderNumber =
+  "HM-" +
+  new Date().getFullYear() +
+  "-" +
+  Date.now().toString().slice(-6);
   const totalPaid = ((session.amount_total || 0) / 100).toFixed(2);
   const customerEmail = session.customer_email || m.customerEmail || "";
 
@@ -96,7 +100,7 @@ Tip:
 $${m.tipAmount || "0"}
 
 Stripe Session:
-${orderNumber}
+${stripeSessionId}
 `;
 
   const customerEmailText = `
@@ -129,7 +133,7 @@ Selected Add-ons:
 ${m.specificLyrics === "true" ? "- Specific lyrics\n" : ""}${
     m.pdfLyrics === "true" ? "- PDF lyric sheet\n" : ""
   }${m.commercialLicense === "true" ? "- Commercial license\n" : ""}${
-    m.annualSubscription === "true" ? "- Annual subscription\n" : ""
+    m.annualSubscription === "true" ? "- Annual Song Package\n" : ""
   }
 
 We’ll send updates to this email address.

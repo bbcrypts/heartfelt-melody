@@ -203,16 +203,16 @@ export default function HomePage() {
         </div>
 
         <div className="occasionGrid">
-          <Link href="/song-for-wife">Wife</Link>
-          <Link href="/song-for-husband">Husband</Link>
-          <Link href="/song-for-son">Son</Link>
-          <Link href="/song-for-daughter">Daughter</Link>
-          <Link href="/song-for-brother">Brother</Link>
-          <Link href="/song-for-sister">Sister</Link>
-          <Link href="/song-for-mom">Mom</Link>
-          <Link href="/song-for-dad">Dad</Link>
-          <Link href="/song-for-friend">Friend</Link>
-        </div>
+  <Link href="/write?recipient=wife">Wife</Link>
+  <Link href="/write?recipient=husband">Husband</Link>
+  <Link href="/write?recipient=son">Son</Link>
+  <Link href="/write?recipient=daughter">Daughter</Link>
+  <Link href="/write?recipient=brother">Brother</Link>
+  <Link href="/write?recipient=sister">Sister</Link>
+  <Link href="/write?recipient=mom">Mom</Link>
+  <Link href="/write?recipient=dad">Dad</Link>
+  <Link href="/write?recipient=friend">Friend</Link>
+</div>
       </section>
 
       <section className="finalCta">
