@@ -38,12 +38,19 @@ export async function POST(req: Request) {
   const m = session.metadata || {};
 
   const orderNumber =
-  "HM-" +
-  new Date().getFullYear() +
-  "-" +
-  Date.now().toString().slice(-6);
+    "HM-" +
+    new Date().getFullYear() +
+    "-" +
+    Date.now().toString().slice(-6);
+
+  const stripeSessionId = session.id;
   const totalPaid = ((session.amount_total || 0) / 100).toFixed(2);
-  const customerEmail = session.customer_email || m.customerEmail || "";
+
+  const customerEmail =
+    session.customer_details?.email ||
+    session.customer_email ||
+    m.customerEmail ||
+    "";
 
   const ownerEmail = `
 NEW HEARTFELT MELODY ORDER
@@ -93,7 +100,7 @@ ${m.pdfLyrics === "true" ? "Yes" : "No"}
 Commercial License:
 ${m.commercialLicense === "true" ? "Yes" : "No"}
 
-Annual Subscription:
+Annual Song Package:
 ${m.annualSubscription === "true" ? "Yes" : "No"}
 
 Tip:
