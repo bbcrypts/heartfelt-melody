@@ -16,6 +16,7 @@ export default function WritePage() {
 
   const [form, setForm] = useState({
     customerEmail: "",
+    confirmEmail: "",
     recipientName: "",
     relationship: "",
     occasion: "",
@@ -53,6 +54,59 @@ export default function WritePage() {
 
   function back() {
     setStep((s) => Math.max(s - 1, 0));
+  }
+
+  function isValidEmail(email: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  async function handleCheckout() {
+    const email = form.customerEmail.trim().toLowerCase();
+    const confirmEmail = form.confirmEmail.trim().toLowerCase();
+
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address before checkout.");
+      return;
+    }
+
+    if (email !== confirmEmail) {
+      alert("Please make sure both email fields match.");
+      return;
+    }
+
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...form,
+        customerEmail: email,
+        confirmEmail,
+      }),
+    });
+
+    const text = await res.text();
+
+    if (!res.ok) {
+      console.error("Checkout error:", text);
+      alert("Checkout failed. Check the browser console or terminal.");
+      return;
+    }
+
+    if (!text) {
+      alert("Checkout failed: the server returned an empty response.");
+      return;
+    }
+
+    const data = JSON.parse(text);
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      console.error("Checkout response missing URL:", data);
+      alert("Checkout failed: no Stripe URL was returned.");
+    }
   }
 
   return (
@@ -234,13 +288,14 @@ export default function WritePage() {
               <p><strong>Voice:</strong> {form.voice || "—"}</p>
               <p><strong>PDF Lyric Sheet:</strong> {form.pdfLyrics ? "Yes" : "No"}</p>
               <p><strong>Specific Lyrics:</strong> {form.specificLyrics ? "Yes" : "No"}</p>
+
+              {form.specificLyrics && (
+                <p>
+                  <strong>Requested Lyrics:</strong>{" "}
+                  {form.specificLyricsText || "—"}
+                </p>
+              )}
             </div>
-            {form.specificLyrics && (
-  <p>
-    <strong>Requested Lyrics:</strong>{" "}
-    {form.specificLyricsText || "—"}
-  </p>
-)}
 
             <label className="checkboxRow">
               <input
@@ -250,7 +305,7 @@ export default function WritePage() {
                   update("commercialLicense", e.target.checked)
                 }
               />
-              Add commercial use license (+${COMMERCIAL_LICENSE_PRICE})
+              Add commercial use license? (+${COMMERCIAL_LICENSE_PRICE})
             </label>
 
             <small>
@@ -268,6 +323,16 @@ export default function WritePage() {
                 type="email"
                 value={form.customerEmail}
                 onChange={(e) => update("customerEmail", e.target.value)}
+                placeholder="you@example.com"
+              />
+            </label>
+
+            <label>
+              Confirm Email Address
+              <input
+                type="email"
+                value={form.confirmEmail}
+                onChange={(e) => update("confirmEmail", e.target.value)}
                 placeholder="you@example.com"
               />
             </label>
@@ -370,7 +435,9 @@ export default function WritePage() {
               </label>
             </div>
 
-            <button className="payButton">Complete Secure Checkout</button>
+            <button className="payButton" onClick={handleCheckout}>
+              Complete Secure Checkout
+            </button>
           </StepCard>
         )}
 

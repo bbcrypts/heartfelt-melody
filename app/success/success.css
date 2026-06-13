@@ -1,0 +1,62 @@
+.successPage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  background:
+    linear-gradient(rgba(29, 23, 19, 0.35), rgba(29, 23, 19, 0.5)),
+    url("/success-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #1d1713;
+}
+
+.successCard {
+  max-width: 720px;
+  background: rgba(255, 248, 239, 0.72);
+  border-radius: 32px;
+  padding: 46px;
+  text-align: center;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+}
+
+.scriptLine {
+  font-family: "Brush Script MT", cursive;
+  color: #9b5f30;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin: 0 0 10px;
+}
+
+.successCard h1 {
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1;
+  margin: 0 0 20px;
+}
+
+.successCard p {
+  font-size: 1.12rem;
+  line-height: 1.65;
+}
+
+.successCard a {
+  color: #9b5f30;
+  font-weight: 900;
+}
+
+.homeButton {
+  margin-top: 22px;
+  display: inline-block;
+  background: #1d1713;
+  color: white !important;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 14px 24px;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.homeButton:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+}
