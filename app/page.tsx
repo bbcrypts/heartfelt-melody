@@ -249,7 +249,7 @@ export default function HomePage() {
         <details>
           <summary>Who owns the rights to a song once it&apos;s created?</summary>
           <p>
-            You retain personal-use rights to the song you create with us. If
+            You own the rights to the song you create with us, it's included in our fee. Your lyrics and inspiration remain your intellectual property, and you may continue to use them for any other purpose. If
             you want to use the song commercially, please purchase the
             Commercial License add-on.
           </p>
